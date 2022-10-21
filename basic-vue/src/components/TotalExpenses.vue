@@ -1,7 +1,5 @@
 <template>
-    
     <div class="total-income">Total : ${{ totalIncome }}</div>
-
 </template>
 
 <script>
