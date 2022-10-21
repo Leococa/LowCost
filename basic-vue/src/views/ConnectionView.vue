@@ -2,8 +2,9 @@
     <div id="app">
         <NavBar />
         <h1>Connection Page</h1>
+        <hr style="width:20%; margin:auto; height:5%;">
       <router-view/>
-      
+      <br/>
     <section class="login">
       <form>
         <div class="innerFrame">

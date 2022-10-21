@@ -3,9 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const Sequelize = require("./db.connection");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var loginRouter = require('./routes/login');
 var typeExpensesRouter = require('./routes/typeExpenses');
 
 var app = express();
@@ -22,6 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
 app.use('/typeExpenses', typeExpensesRouter);
 
 // catch 404 and forward to error handler
@@ -40,16 +43,18 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-/* BEGIN db initialization */
-const Op = {}
-const dbConfig = require("./db.config.js");
-const Sequelize = require("sequelize");
-const connection = new Sequelize(dbConfig.DB, dbConfig.USER,
-dbConfig.PASSWORD, {
-host: dbConfig.HOST,
-dialect: dbConfig.dialect,
-pool: dbConfig.pool
-});
-/* END db initialization */
+const User = require("./models/user.model")(Sequelize.connection, Sequelize.library);
+const Session = require("./models/session.model")(Sequelize.connection, Sequelize.library);
+
+// Database sync
+async function syncDB() {
+  await User.sync({ force: false, alter: true });
+
+  Session.belongsTo(User);
+  await Session.sync({ force: false, alter: true });
+}
+
+syncDB();
+
 
 module.exports = app;

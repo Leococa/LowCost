@@ -1,6 +1,7 @@
 <template>
     <nav id="vue">
         <div class="menu-item"><router-link to="/">Home</router-link></div>
+        <div class="menu-item" v-if="loggedIn"><router-link to="/">Accountance</router-link></div>
         <div class="menu-item"><router-link to="/about">About</router-link></div>
         <div class="menu-item"><router-link to="/connection">Connect</router-link></div> 
     </nav>
@@ -9,7 +10,11 @@
 <script>
 export default {
   name: 'NavBar',
-  
+  data() {
+    return {
+      loggedIn: false
+    };
+  }
 }
 </script>
 <style>

@@ -4,9 +4,13 @@
 
     <br/>
     <h1>Home Page</h1>
+    <hr style="width:20%; margin:auto; height:5%;">
 
     <router-view/>
-
+    <br/>
+    <h3 class="presentation">
+        You can put here your expenses info here by giving its date, description, type and how many CAD.
+    </h3>
     <FormExpenses @add-income="addIncome"/>
     <IncomeList :sorted-income="sortedIncomeWrapper" @remove="removeItem"/>
     <TotalExpenses :totalIncome="this.totalIncome"/>
